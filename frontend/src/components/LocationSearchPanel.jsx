@@ -30,23 +30,30 @@
 
 import React from 'react'
 
-function LocationSearchPanel() {
+const LocationSearchPanel = (props) => {
+    
+    //sample array for loction
+    const locations =[
+        "09P Thinglao ka baas Madliya, Pipar City, Jodhpur, Rajasthan 342601",
+        "22A Khadavo ka baas Madliya, Pipar City, Jodhpur, Rajasthan 342601",
+        "11B kumaro ka baas Madliya, Pipar City, Jodhpur, Rajasthan 342601"
+
+    ]
+
   return (
         <div>
             {/* Display fetched suggestions */}
-            
-                    <div className='flex gap-4 border-2 p-3 border-gray-50 active:border-black rounded-xl items-center my-2 justify-start'>
+            {
+               locations.map(function(elem,idx){
+                    return<div key={idx} onClick={()=>{
+                        props.setVehiclePanel(true)
+                        props.setPanelOpen(false)
+                    }} className='flex gap-4 border-2 p-3 border-gray-50 active:border-black rounded-xl items-center my-2 justify-start'>
                         <h2 className='bg-[#eee] h-8 flex items-center justify-center w-12 rounded-full'><i className="ri-map-pin-fill"></i></h2>
-                        <h4 className='font-medium'>Madliya, Pipar City, Jodhpur, Rajasthan 342601</h4>
-                    </div>
-                    <div className='flex gap-4 border-2 p-3 border-gray-50 active:border-black rounded-xl items-center my-2 justify-start'>
-                        <h2 className='bg-[#eee] h-8 flex items-center justify-center w-12 rounded-full'><i className="ri-map-pin-fill"></i></h2>
-                        <h4 className='font-medium'>Madliya, Pipar City, Jodhpur, Rajasthan 342601</h4>
-                    </div>
-                    <div className='flex gap-4 border-2 p-3 border-gray-50 active:border-black rounded-xl items-center my-2 justify-start'>
-                        <h2 className='bg-[#eee] h-8 flex items-center justify-center w-12 rounded-full'><i className="ri-map-pin-fill"></i></h2>
-                        <h4 className='font-medium'>Madliya, Pipar City, Jodhpur, Rajasthan 342601</h4>
-                    </div>
+                        <h4 className='font-medium'>{elem}</h4>
+                </div>
+               }) 
+            }
         </div>
   )
 }

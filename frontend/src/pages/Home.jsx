@@ -4,13 +4,22 @@ import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel';
 import mainlogo from '../img/mainlogo.png'
+import VehiclePanel from '../components/VehiclePanel';
+import ConfirmRide from '../components/ConfirmRide';
+import LookingForDriver from '../components/LookingForDriver';
 
 function Home() {
   const [pickup, setPickup] = useState('')
   const [ destination, setDestination ] = useState('')
   const [ panelOpen, setPanelOpen ] = useState(false)
+  const vehiclePanelRef = useRef(null)
+  const confirmRidePanelRef = useRef(null)
+  const vehicleFoundRef = useRef(null)
   const panelRef = useRef(null)  
   const panelCloseRef = useRef(null)
+  const [ vehiclePanel, setVehiclePanel ] = useState(false)
+  const [ confirmRidePanel, setConfirmRidePanel ] = useState(false)
+  const [ vehicleFound, setVehicleFound ] = useState(false)  
 
   const submitHandler = ()=>{
     e.preventDefault()
@@ -39,10 +48,48 @@ function Home() {
     }
   },[panelOpen])
 
+  useGSAP(function () {
+        if (vehiclePanel) {
+            gsap.to(vehiclePanelRef.current, {
+                transform: 'translateY(0)'
+            })
+        } else {
+            gsap.to(vehiclePanelRef.current, {
+                transform: 'translateY(100%)'
+            })
+        }
+    }, [ vehiclePanel ])
+
+    useGSAP(function () {
+        if (confirmRidePanel) {
+            gsap.to(confirmRidePanelRef.current, {
+                transform: 'translateY(0)'
+            })
+        } else {
+            gsap.to(confirmRidePanelRef.current, {
+                transform: 'translateY(100%)'
+            })
+        }
+    }, [ confirmRidePanel ])
+
+    useGSAP(function () {
+        if (vehicleFound) {
+            gsap.to(vehicleFoundRef.current, {
+                transform: 'translateY(0)'
+            })
+        } else {
+            gsap.to(vehicleFoundRef.current, {
+                transform: 'translateY(100%)'
+            })
+        }
+    }, [ vehicleFound ])
+
   return (
     <div className='h-screen relative overflow-hidden'>
       <img className='mix-blend-darken w-16 absolute left-5 top-5' src={mainlogo} alt='' />
-      <div className='h-screen w-screen'>
+      <div onClick={()=>{
+        setVehiclePanel(false)
+      }} className='h-screen w-screen'>
         {/* img for temporary use */}
         <img className='w-full h-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
       </div>
@@ -84,8 +131,17 @@ function Home() {
             </form>
         </div>
         <div ref={panelRef} className='bg-white h-0'>
-              <LocationSearchPanel />
+              <LocationSearchPanel setPanelOpen={setPanelOpen}  setVehiclePanel={setVehiclePanel} />
         </div>
+      </div>
+      <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
+          <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel}/>
+      </div>
+      <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12'>
+          <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+      </div>
+      <div ref={vehicleFoundRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12'>
+          <LookingForDriver   />
       </div>
     </div>
   )
