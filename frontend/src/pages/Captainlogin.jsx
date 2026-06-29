@@ -41,7 +41,9 @@ const Captainlogin = () => {
       <div>
         <img className='mix-blend-darken w-16 mb-3' src={driverlogo} alt='' />
 
-        <form o2e>
+        <form  onSubmit={(e)=>{
+                    submitHandler(e)
+        }}>
           <h3 className='text-lg font-medium mb-2'>What's your email</h3>
           <input
             required
